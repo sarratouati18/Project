@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Post
+{% endblock %}
+
+{% block body %}
+	<nav aria-label="breadcrumb">
+		<ol class="breadcrumb mb-0">
+			<li class="breadcrumb-item">Administration</li>
+			<li class="breadcrumb-item">
+				<a href="admin_posts_index.php">Gestion des articles</a>
+			</li>
+			<li class="breadcrumb-item active" aria-current="page">Créer un nouvel article</li>
+		</ol>
+	</nav>
+	{% include ('inc/menuadmin.html.twig') %}
+	
+
+
+	{{ form_start(form, {'action': path('app_post_edit', {'id': post.id }), 'method': 'POST', 'attr': {'class': 'col-md-7 py-4 mx-auto'}}) }}
+
+	<input type="hidden" name="id" value="<?= intval($post['Id']) ?>">
+	<fieldset>
+		<legend class="text-center display-4 mb-5">Mise à jour d'un article</legend>
+		<div class="form-row align-items-center mb-2">
+			<div class="col-6">
+				<label for="category">Catégorie de l'article</label>
+				{{ form_widget(form.Category, {
+                                'attr': {
+                                    'class': 'custom-select ' ~ (form.Category.vars.valid ? '' : 'is-invalid')
+                                }
+                            }) 
+                            }}
+			</div>
+			<div class="col-6">
+				<label for="author">Auteur</label>
+				{{ form_widget(form.User, {
+                                'attr': {
+                                    'class': 'custom-select ' ~ (form.User.vars.valid ? '' : 'is-invalid')
+                                }
+                            }) 
+                             }}
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="title">Titre de l'article</label>
+			{{ form_widget(form.title, {
+    'attr': {
+        'class': 'form-control '
+    }
+}) }}
+		</div>
+		<div class="form-group">
+			<label for="contents">Texte de l'article</label>
+			{{ form_widget(form.contents, {
+    'attr': {
+        'class': 'form-control '
+    }
+}) }}
+		</div>
+
+	</fieldset>
+	<button type="submit" class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>
+	<div style="display:none">
+		{{ form_rest(form)}}
+	</div>
+	{{ form_end(form) }}
+
+	<a href="{{ path('app_post_index') }}">back to list</a>
+
+
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil du blog
+{% endblock %}
+
+{% block body %}
+	{% for post in posts %}
+		<article class="card shadow m-2 d-flex flex-column">
+			<header class="card-header bg-warning flex-grow-1">
+				<h3 class="h4">
+					<a class="text-white font-weight-bold" href="index.php?page=home&action=show&id=<?= intval( $post['Id'] ); ?>" title="Consulter l'article">
+						{{post.title}}
+					</a>
+				</h3>
+				<p class="m-0">
+					Dans la catégorie :
+					<strong class="badge badge-dark">
+						{{post.Category.Name}}
+					</strong>
+				</p>
+			</header>
+			<div class="card-body flex-grow-0 bg-light text-dark">
+				<div class="card-text">
+					{{post.contents}}
+					[...]
+				</div>
+				<p class="mt-5 card-text text-right">
+					<a class="btn btn-warning" href="{{ path('home_show_post',{'id':post.id})}}" title="Consulter l'article">Lire la suite</a>
+				</p>
+			</div>
+			<footer class="card-footer text-white bg-secondary small">
+				Rédigé par
+				<strong>
+					{{post.user.firstname}}
+					{{post.user.lastname}}
+				</strong>
+				le
+				<time>
+					{{post.creationtimestamp|date("m/d/Y")}}
+				</time>
+			</footer>
+		</article>
+
+
+	{% endfor %}
+{% endblock %}

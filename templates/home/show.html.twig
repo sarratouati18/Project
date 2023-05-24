@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+{% block title %}Accueil du blog
+{% endblock %}
+{% block body %}
+	<main class="d-flex flex-column">
+		<nav aria-label="breadcrumb">
+			<ol class="breadcrumb m-0">
+				<li class="breadcrumb-item">
+					<a href="index.php">Accueil</a>
+				</li>
+				<li class="breadcrumb-item">
+					<a href="#"><?= htmlspecialchars($post['Name']) ?></a>
+				</li>
+				<li class="breadcrumb-item active" aria-current="page"><?= htmlspecialchars($post['Title']) ?></li>
+			</ol>
+		</nav>
+		<article class="flex-grow-1 d-lg-flex align-items-stretch">
+			<div class="col-lg-7 p-5">
+				<header class="jumbotron post-header">
+					<h1>
+						Blog
+					</h1>
+					<hr class="my-4">
+					<p class="m-0">Dans la catégorie :
+						<span class="badge badge-dark">{{post.Category.Name}}</span>
+					</p>
+					<small>
+						Rédigé par
+						{{post.user.firstname}}
+						{{post.user.lastname}}
+						le
+						<time(<?= {{post.creationtimestamp|date("m/d/Y")}} </time> </small> </header> <div class="px-5"> {{post.contents}} </div> </div> <aside class="col-lg-5 p-5 bg-secondary text-light"> <h2 class="h4 text-center"> liste des commentaires <small> count($comments); ?>)</small>
+
+					</h2>
+
+					{% if post.comments|length >0 %}
+
+						<ul class="list-group text-white">
+							{% for comment in post.comments %}
+								<li class="list-group-item bg-dark">
+									<i class="fa fa-comment" aria-hidden="true"></i>
+									Rédigé par
+									<strong>
+										{{comment.nickname}}</strong>
+									<div class="py-2">{{comment.Contents}}</div>
+								{% endfor %}
+							</li>
+
+						</ul>
+					{% else %}
+
+						<p>Cet article n'a pas encore de commentaire</p>
+					{% endif %}
+
+					<!-- Formulaire de saisie d'un nouveau commentaire pour cet article -->
+					<form
+						class="py-5" action="{{ path('home_add_comment') }}" method="post">
+
+						<!-- Utilisation d'un champ caché pour spécifier à quel article rattacher le commentaire -->
+
+
+						<fieldset class="bg-warning text-dark pt-4 px-4 rounded">
+							<legend class="h4 p-2 bg-dark rounded text-white text-center">Nouveau commentaire</legend>
+							<ul class="list-unstyled">
+								<li class="form-group row">
+									<label class="col-sm-3 col-form-label" for="pseudo">Pseudo
+									</label>
+									<div class="col-sm-9">
+										<input class="form-control" type="text" id="pseudo" name="pseudo">
+									</div>
+								</li>
+								<li class="form-group row">
+									<label class="col-sm-3 col-form-label" for="comment">Commentaire
+									</label>
+									<div class="col-sm-9">
+										<textarea class="form-control" id="comment" name="comment" rows="3"></textarea>
+									</div>
+								</li>
+								<input type="text" name="postId" value="{{post.id}}">
+								<li class="text-right">
+									<button class="btn btn-dark" type="submit">Ajouter</button>
+									<a class="btn btn-secondary" href="index.php">Annuler</a>
+								</li>
+							</ul>
+						</fieldset>
+					</form>
+					
+				</aside>
+			</article>
+		</main>
+	{% endblock %}
